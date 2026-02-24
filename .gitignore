@@ -1,0 +1,12 @@
+bin/
+obj/
+.vs
+.vscode
+node_modules
+dist/
+TypeScripts/**/*.mjs
+TypeScripts/**/*.map
+TypeScripts/**/*.d.mts
+TypeScripts/**/*.d.ts
+!TypeScripts/puerts/*.mjs
+Com3d2Mod/Gen
