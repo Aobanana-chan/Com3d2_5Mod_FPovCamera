@@ -13,11 +13,11 @@
       https://nuget.samboy.dev/v3/index.json
     </RestoreAdditionalProjectSources>
     <RootNamespace>Com3d2Mod</RootNamespace>
-    <DefineConstants>PUERTS_GENERAL;Dev;</DefineConstants>
+    <DefineConstants>PUERTS_GENERAL;</DefineConstants>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-    <DefineConstants>DEV</DefineConstants>
+    <DefineConstants>PUERTS_GENERAL;Dev;</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

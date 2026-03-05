@@ -15,8 +15,8 @@ class PovController {
 
     enableMouseControl: boolean = false
 
-    maximumVerticalAngle: number = 40
-    minimumVerticalAngle: number = -40
+    maximumVerticalAngle: number = 60
+    minimumVerticalAngle: number = -60
 
     rotationY: number = 0
     rotationX: number = 0
@@ -43,7 +43,6 @@ class PovController {
     private getCurrentMaid(): CS.Maid | null {
         try {
             let yotogiManager = CS.YotogiManager.instans
-            // let currentYotogi = yotogiManager
             if (yotogiManager != null) {
                 return yotogiManager.maid
             }
@@ -69,19 +68,9 @@ class PovController {
     private handleRotation() {
         let mouseX = CS.UnityEngine.Input.GetAxis("Mouse X") * this.rotationSpeed
         let mouseY = CS.UnityEngine.Input.GetAxis("Mouse Y") * this.rotationSpeed
-        // let rotationYBefore = this.rotationY
-        // let rotationXBefore = this.rotationX
         this.rotationY += mouseY
         this.rotationX += mouseX
         this.rotationY = clamp(this.rotationY, this.minimumVerticalAngle, this.maximumVerticalAngle)
-        // let diffY = this.rotationY - rotationYBefore
-        // this.rotationX += mouseX
-        // let diffX = this.rotationX - rotationXBefore
-        // // COM3D2的坐标系和Unity是反的
-        // let rotationY = CS.GameMain.Instance.MainCamera.transform.localEulerAngles.y + this.rotationX
-        // let rotationX = CS.GameMain.Instance.MainCamera.transform.localEulerAngles.x - this.rotationY
-
-        // CS.GameMain.Instance.MainCamera.transform.localEulerAngles = new Vector3(rotationX, rotationY, 0)
     }
 
     private handleMovement(trans: CS.UnityEngine.Transform) {
@@ -139,11 +128,9 @@ class PovController {
             this.handleRotation()
             this.handleMovement(headTrans)
         }
-        let newRotation = UnityEngine.Quaternion.LookRotation(headTrans.up, Vector3.op_Multiply(headTrans.right, -1))
-        let rotationY = newRotation.eulerAngles.y + this.rotationX
-        let rotationX = newRotation.eulerAngles.x - this.rotationY
 
-        CS.GameMain.Instance.MainCamera.transform.localEulerAngles = new Vector3(rotationX, rotationY, 0)
+        let newRotation = UnityEngine.Quaternion.LookRotation(headTrans.up, Vector3.op_Multiply(headTrans.right, -1))
+        CS.GameMain.Instance.MainCamera.transform.rotation = UnityEngine.Quaternion.op_Multiply(newRotation, UnityEngine.Quaternion.Euler(-this.rotationY, this.rotationX, 0))
         this.setPosToHead(headTrans)
     }
 }
